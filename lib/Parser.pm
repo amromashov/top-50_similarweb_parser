@@ -106,9 +106,6 @@ sub update_cache {
             warn $err;
         }
         )->wait;
-
-    $self->cache_interface->set_cache($sites_updated_info);
-
 }
 
 sub get_similarweb_response {
