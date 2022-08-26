@@ -1,0 +1,51 @@
+#!/usr/bin/env perl
+use 5.26.0;
+
+use strict;
+use warnings;
+
+use Mojolicious::Lite -signatures;
+use Mojo::AsyncAwait;
+use Mojo::Promise;
+
+use FindBin qw($Bin);
+use lib "${Bin}/../lib";
+
+use DataProvider;
+
+my $data_provider = DataProvider->new();
+ 
+get '/' => 'index';
+
+websocket '/top' => sub ($c) {
+  $c->app->log->debug('WebSocket opened');
+
+  my $table = $data_provider->generate_cached_response();
+
+  $c->send($table);
+
+  $c->on(finish => sub ($c, $code, $reason = undef) {
+    $c->app->log->debug("WebSocket closed with status $code");
+    $data_provider->update_cache();
+  });
+};
+ 
+app->start;
+__DATA__
+ 
+@@ index.html.ep
+<!DOCTYPE html>
+<html>
+  <head><title>Таблица топ-50 сайтов ( не России, капчу с бека я не осилю пройти :с )</title></head>
+  <body>
+    <script>
+      const ws = new WebSocket('<%= url_for('top')->to_abs %>');
+ 
+      ws.onmessage = function (event) {
+        document.body.innerHTML = event.data;
+        ws.close();
+      };
+ 
+    </script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+{
+	"similarweb_api_query" : "https://api.similarweb.com/v1/similar-rank/top-sites?api_key=65c7f9129dd047f59127ff5a131bfa97&limit=50",
+	"cache_path" : "../data/cache.json"
+}
