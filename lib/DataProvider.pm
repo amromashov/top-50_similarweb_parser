@@ -54,7 +54,6 @@ sub _generate_html_table {
     $result_html .= "</table>";
 
     return $result_html;
-
 }
 
 1;

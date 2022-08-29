@@ -66,7 +66,6 @@ sub update_cache {
 
                     my $matched_metric = ($res->body) =~ m/(google-analytics|mc\.yandex)/;
                     $sites_list->[$counter]{metric} = $matched_metric;
-
                 } else {
                     $sites_list->[$counter]{metric} = $tx->{reason}->[0];
                 }
@@ -124,7 +123,6 @@ sub get_similarweb_response {
     }
 
     return $sites_list;
-
 }
 
 1;
